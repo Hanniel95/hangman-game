@@ -10,8 +10,7 @@ class Movement {
 
       const startTime = performance.now();
 
-      const startX = from.x;
-      const startY = from.y;
+      const { x: startX, y: startY } = from;
 
       cloneElement.style.left = startX + "px";
       cloneElement.style.top = startY + "px";
@@ -33,7 +32,7 @@ class Movement {
         if (progress < 1) {
           requestAnimationFrame(animate.bind(this));
         } else {
-          resolve(); // Résoudre la promesse une fois l'animation terminée
+          resolve();
         }
       }
 
