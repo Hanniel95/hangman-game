@@ -1,10 +1,22 @@
-class SpaceItem {
-  value;
-  index;
-  game;
+class SpaceItem extends DOMElement {
+  #index;
+  #game;
 
   constructor(index) {
-    this.index = index;
+    super();
+    this.#index = index;
+  }
+
+  get index() {
+    return this.#index;
+  }
+
+  get game() {
+    return this.#game;
+  }
+
+  set game(game) {
+    this.#game = game;
   }
 
   get id() {
@@ -21,18 +33,6 @@ class SpaceItem {
 
   get element() {
     return document.getElementById(this.id);
-  }
-
-  get positionX() {
-    return this.element.getBoundingClientRect().x;
-  }
-
-  get positionY() {
-    return this.element.getBoundingClientRect().y;
-  }
-
-  getPosition() {
-    return new Position(this.positionX, this.positionY);
   }
 
   ready() {}
