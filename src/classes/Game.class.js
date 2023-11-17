@@ -35,7 +35,16 @@ class Game {
   #buttonsElementSelector;
   #hangmanImageSelector;
 
+  /**
+   * List of letter buttons
+   * @type {LetterButton[]}
+   */
   buttons;
+
+  /**
+   * List of space items
+   * @type {SpaceItem[]}
+   */
   spaces;
 
   index;
@@ -226,7 +235,7 @@ class Game {
    * @returns {boolean} - True if the word is completely guessed, otherwise false.
    */
   isCurrentWordComplete() {
-    return this.spaces.every((item) => item.element.style.display == "none");
+    return this.spaces.every((item) => !item.isVisible());
   }
 
   /**
@@ -257,7 +266,7 @@ class Game {
         await this.handleCorrectGuessButtonClick(buttonForSpace, space, button);
       });
 
-      space.element.style.display = "none";
+      space.hide();
       clonedButton.parentNode.removeChild(clonedButton);
     });
 
@@ -272,16 +281,23 @@ class Game {
    */
   async handleCorrectGuessButtonClick(clonedButton, space, button) {
     const movementAnimator = new Movement();
+    const clonedButtons = [...document.querySelectorAll(".letter-box")]
+      .filter(
+        (element) =>
+          element.id.startsWith("clone-letter-button") &&
+          element.innerText === clonedButton.innerText
+      )
+      .map((element) => new DOMElement(element));
 
-    space.element.style.display = "";
-
-    await movementAnimator.returnToPosition(
-      clonedButton,
-      new Position(
-        clonedButton.getBoundingClientRect().x,
-        clonedButton.getBoundingClientRect().y
-      ),
-      new Position(button.positionX, button.positionY)
+    await Promise.all(
+      clonedButtons.map(async (clonedButton) => {
+        new DOMElement(clonedButton.element.nextElementSibling).show();
+        return movementAnimator.returnToPosition(
+          clonedButton.element,
+          clonedButton.getPosition(),
+          button.getPosition()
+        );
+      })
     );
 
     button.active = true;
