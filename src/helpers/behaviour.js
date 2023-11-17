@@ -1,14 +1,23 @@
+/**
+ * Function to initialize button focus behavior
+ */
 function initButtonFocusBehaviour() {
-  const buttons = document.getElementsByClassName("letter-box");
+  // Select all elements with the class "letter-box"
+  const buttons = document.querySelectorAll(".letter-box");
 
-  for (let index = 0; index < buttons.length; index++) {
-    const element = buttons[index];
-    element.addEventListener("mousedown", function () {
-      element.classList.add("focus");
-    });
+  // Event handler for mouse down event
+  const handleMouseDown = (event) => {
+    event.currentTarget.classList.add("focus");
+  };
 
-    element.addEventListener("mouseup", function () {
-      element.classList.remove("focus");
-    });
-  }
+  // Event handler for mouse up event
+  const handleMouseUp = (event) => {
+    event.currentTarget.classList.remove("focus");
+  };
+
+  // Attach event listeners to each "letter-box" element
+  buttons.forEach((element) => {
+    element.addEventListener("mousedown", handleMouseDown);
+    element.addEventListener("mouseup", handleMouseUp);
+  });
 }
