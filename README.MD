@@ -26,6 +26,6 @@ I welcome contributions and feedback! Feel free to open issues, submit pull requ
 
 ### 📖 License:
 
-[Specify the license you're using for your project.]
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
 
 Enjoy playing the Hangman game! 🚀
