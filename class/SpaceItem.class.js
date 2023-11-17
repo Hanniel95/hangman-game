@@ -1,4 +1,6 @@
 class SpaceItem extends DOMElement {
+  static ITEM_CLASS = "space-item";
+
   #index;
   #game;
 
@@ -26,7 +28,7 @@ class SpaceItem extends DOMElement {
   getTemplate() {
     const elem = document.createElement("div");
     elem.id = `${this.id}`;
-    elem.classList.add("space-item");
+    elem.classList.add(SpaceItem.ITEM_CLASS);
 
     return elem;
   }
