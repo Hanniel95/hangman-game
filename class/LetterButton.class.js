@@ -85,7 +85,7 @@ class LetterButton extends DOMElement {
   }
 
   click() {
-    if (!this._active) return;
+    if (!this.#active) return;
     this.game.play(this);
   }
 
