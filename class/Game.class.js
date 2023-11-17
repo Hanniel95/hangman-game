@@ -37,7 +37,13 @@ class Game {
   }
 
   get hangmanImage() {
-    return document.querySelector(this.#hangmanImageSelector);
+    const element = document.querySelector(this.#hangmanImageSelector);
+    if (!element) {
+      throw new Error(
+        `Element not found with selector: ${this.#hangmanImageSelector}`
+      );
+    }
+    return element;
   }
 
   constructor(
