@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&family=Kalam:wght@300;400;700&display=swap");
+
+// Define font variables
+$font-kalam: "Kalam", cursive;
+$primary-color: #f2d511;
+
+// Apply styles to all elements
+* {
+  font-family: $font-kalam;
+  color: white;
+}
+
+// Styles for the body element
+body {
+  background-image: url(../images/bg-default.png);
+  background-size: cover;
+
+  // Styles for the #game element
+  #game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 100px;
+
+    .game-result-space-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      max-width: 800px;
+      width: 100%;
+      gap: 50px;
+
+      .score-image-container {
+        img {
+          max-height: 250px;
+        }
+      }
+    }
+
+    .game-spaces-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      column-gap: 8px;
+      row-gap: 50px;
+
+      .space-item {
+        color: black;
+        font-size: 36px;
+        border-bottom: 4px solid $primary-color;
+        line-height: 1;
+        width: 40px;
+      }
+
+      .letter-box {
+        // Disposition
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        // Dimensions
+        width: 40px;
+        height: 40px;
+
+        // Presentation
+        // border: 2px solid #a52a01;
+        border: none;
+        border-radius: 13px;
+        background-color: $primary-color;
+
+        // Text
+        color: rgb(21, 20, 20);
+        font-size: 25px;
+      }
+    }
+
+    // Styles for the .keyboard class within #game
+    .game-keyboard-container {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      width: 100%;
+
+      // Styles for the .letter-box class within .keyboard
+      .letter-box {
+        // Disposition
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        // Dimensions
+        width: 40px;
+        height: 40px;
+
+        // Presentation
+        border: 2px solid #a52a01;
+        border-radius: 13px;
+        background-color: $primary-color;
+
+        // Text
+        color: rgb(21, 20, 20);
+        font-size: 25px;
+
+        // Behavior
+        // transition: all 300ms;
+
+        // Hover effect for non-disabled letter-box elements
+        &:not(.disabled):hover {
+          cursor: pointer;
+          bottom: 1px;
+          transform: scale(1.05);
+        }
+
+        // Focus effect for non-disabled letter-box elements
+        &:not(.disabled).focus {
+          transform: scale(0.9);
+          cursor: move;
+        }
+
+        // Styles for disabled letter-box elements
+        &.disabled {
+          opacity: 0.4;
+          background-color: #b8a10b;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
