@@ -47,7 +47,16 @@ class Game {
    */
   spaces;
 
-  index;
+  /**
+   * Current level
+   * @type {number}
+   */
+  level;
+
+  /**
+   * Remaining lifes
+   * @type {number}
+   */
   lifes;
 
   /**
@@ -69,7 +78,7 @@ class Game {
     this.buttons = [];
     this.spaces = [];
 
-    this.index = 0;
+    this.level = 0;
     this.lifes = Game.INITIAL_LIFE_COUNT;
   }
 
@@ -123,7 +132,7 @@ class Game {
    * @returns {string} - The current word.
    */
   get currentWord() {
-    return Game.WORDS[this.index];
+    return Game.WORDS[this.level];
   }
 
   /**
@@ -226,7 +235,7 @@ class Game {
    * Handles the completion of the current word.
    */
   handleCompletedWord() {
-    this.index++;
+    this.level++;
     this.initializeGame();
   }
 
@@ -246,10 +255,13 @@ class Game {
   async handleCorrectGuessAnimation(indexes, button) {
     const animations = indexes.map(async (index) => {
       const space = this.spaces[index];
+      // Cloned button is the temporary button that moves
       const clonedButton = button.cloneElement();
 
+      // Deactivate the original button
       button.active = false;
 
+      // Perform the movement
       const movementAnimator = new Movement();
       await movementAnimator.goToPosition(
         clonedButton,
@@ -257,19 +269,26 @@ class Game {
         new Position(space.positionX, space.positionY - 20)
       );
 
+      // Clone the button to make it the one that will stay in place of the space
       const buttonForSpace = clonedButton.cloneNode(true);
       buttonForSpace.style.position = "static";
 
+      // Add the button directly before the space
       space.element.parentNode.insertBefore(buttonForSpace, space.element);
 
+      // Add the event in case of a click on the button
       buttonForSpace.addEventListener("click", async () => {
         await this.handleCorrectGuessButtonClick(buttonForSpace, space, button);
       });
 
+      // Hide the space
       space.hide();
+
+      // Remove the temporary clone
       clonedButton.parentNode.removeChild(clonedButton);
     });
 
+    // Perform all animations
     await Promise.all(animations);
   }
 
@@ -281,6 +300,7 @@ class Game {
    */
   async handleCorrectGuessButtonClick(clonedButton, space, button) {
     const movementAnimator = new Movement();
+    // Retrieve the list of all cloned buttons corresponding to the letter of the selected button
     const clonedButtons = [...document.querySelectorAll(".letter-box")]
       .filter(
         (element) =>
@@ -289,16 +309,21 @@ class Game {
       )
       .map((element) => new DOMElement(element));
 
-    await Promise.all(
-      clonedButtons.map(async (clonedButton) => {
-        new DOMElement(clonedButton.element.nextElementSibling).show();
-        return movementAnimator.returnToPosition(
-          clonedButton.element,
-          clonedButton.getPosition(),
-          button.getPosition()
-        );
-      })
-    );
+    // Prepare for the simultaneous animation of all buttons
+    const animations = clonedButtons.map(async (clonedButton) => {
+      // Show the next sibling of each cloned button
+      new DOMElement(clonedButton.element.nextElementSibling).show();
+
+      // Perform the return-to-position animation for each cloned button
+      return movementAnimator.returnToPosition(
+        clonedButton.element,
+        clonedButton.getPosition(),
+        button.getPosition()
+      );
+    });
+
+    // Perform all animations
+    await Promise.all(animations);
 
     button.active = true;
   }
@@ -319,8 +344,8 @@ class Game {
   /**
    * Refresh hangman image
    */
-  loadHangmanImage(level = 6) {
-    const imageUrl = `${Game.HANGMAN_IMAGE_PATH}${level}.png`;
+  loadHangmanImage(imageIndex = 6) {
+    const imageUrl = `${Game.HANGMAN_IMAGE_PATH}${imageIndex}.png`;
     this.hangmanImage.src = imageUrl;
   }
 }
