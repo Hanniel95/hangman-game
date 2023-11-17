@@ -77,7 +77,7 @@ class LetterButton {
     return element;
   }
 
-  cloneElt() {
+  cloneElement() {
     const clone = this.clone();
     this.game.spacesElement.appendChild(clone);
     const cloneElement = document.getElementById(

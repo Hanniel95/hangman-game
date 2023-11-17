@@ -118,7 +118,7 @@ class Game {
   play(button) {
     const indexes = this.currentWord
       .split("")
-      .map((item, index) => ({ letter: item, index }))
+      .map((letter, index) => ({ letter, index }))
       .filter((item) => item.letter === button.letter)
       .map((item) => item.index);
 
@@ -146,46 +146,53 @@ class Game {
     return this.spaces.every((item) => item.element.style.display == "none");
   }
 
-  handleCorrectGuessAnimation(indexes, button) {
-    return Promise.all(
-      indexes.map(async (index) => {
-        const space = this.spaces[index];
-        const cloneElt = button.cloneElt();
-
-        button.active = false;
-
-        const movementAnimator = new Movement();
-        await movementAnimator.goToPosition(
-          cloneElt,
-          button.getPosition(),
-          new Position(space.positionX, space.positionY - 20)
-        );
-
-        const clonedElem = cloneElt.cloneNode(true);
-        clonedElem.style.position = "static";
-
-        space.element.parentNode.insertBefore(clonedElem, space.element);
-
-        clonedElem.addEventListener("click", async () => {
-          await this.handleCorrectGuessButtonClick(clonedElem, space, button);
-        });
-
-        space.element.style.display = "none";
-        cloneElt.parentNode.removeChild(cloneElt);
-      })
-    );
+  async handleCorrectGuessAnimation(indexes, button) {
+    await this.animateCorrectGuess(indexes, button);
+    if (this.isCurrentWordComplete()) {
+      this.handleCompletedWord();
+    }
   }
 
-  async handleCorrectGuessButtonClick(clonedButtonElement, space, button) {
+  async animateCorrectGuess(indexes, button) {
+    const animations = indexes.map(async (index) => {
+      const space = this.spaces[index];
+      const clonedButton = button.cloneElement();
+
+      button.active = false;
+
+      const movementAnimator = new Movement();
+      await movementAnimator.goToPosition(
+        clonedButton,
+        button.getPosition(),
+        new Position(space.positionX, space.positionY - 20)
+      );
+
+      const buttonForSpace = clonedButton.cloneNode(true);
+      buttonForSpace.style.position = "static";
+
+      space.element.parentNode.insertBefore(buttonForSpace, space.element);
+
+      buttonForSpace.addEventListener("click", async () => {
+        await this.handleCorrectGuessButtonClick(buttonForSpace, space, button);
+      });
+
+      space.element.style.display = "none";
+      clonedButton.parentNode.removeChild(clonedButton);
+    });
+
+    await Promise.all(animations);
+  }
+
+  async handleCorrectGuessButtonClick(clonedButton, space, button) {
     const movementAnimator = new Movement();
 
     space.element.style.display = "";
 
     await movementAnimator.returnToPosition(
-      clonedButtonElement,
+      clonedButton,
       new Position(
-        clonedButtonElement.getBoundingClientRect().x,
-        clonedButtonElement.getBoundingClientRect().y
+        clonedButton.getBoundingClientRect().x,
+        clonedButton.getBoundingClientRect().y
       ),
       new Position(button.positionX, button.positionY)
     );
