@@ -71,27 +71,35 @@ class DOMElement {
    * @returns {CSSStyleDeclaration.display} - The display property
    */
   getDisplay() {
-    return this.element.style.display
+    return this.element.style.display;
+  }
+
+  /**
+   * Set the CSS display property of the element
+   * @param {CSSStyleDeclaration.display} display - The display property
+   */
+  setDisplay(display) {
+    this.element.style.display = display;
   }
 
   /**
    * Hide element using display css property
    */
   hide() {
-    this.getDisplay() = "none";
+    this.setDisplay("none");
   }
 
   /**
    * Show element using display css property
    */
   show() {
-    this.getDisplay() = "";
+    this.setDisplay("");
   }
 
   /**
    * Whetter element is visible or not
    */
   isVisible() {
-    this.getDisplay() != "none";
+    return this.getDisplay() != "none";
   }
 }
