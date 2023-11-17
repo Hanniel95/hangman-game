@@ -1,0 +1,11 @@
+// Apply styles to all elements
+* {
+  font-family: $font-kalam;
+  color: white;
+}
+
+// Styles for the body element
+body {
+  background-image: url(../images/bg-default.png);
+  background-size: cover;
+}

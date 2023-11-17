@@ -8,7 +8,8 @@ body {
   background-image: url(../images/bg-default.png);
   background-size: cover;
 }
-body #game {
+
+#game {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,54 +17,58 @@ body #game {
   flex-direction: column;
   gap: 100px;
 }
-body #game .game-result-space-container {
+#game > .game-result-space-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   max-width: 800px;
   width: 100%;
   gap: 50px;
 }
-body #game .game-result-space-container .score-image-container img {
+#game > .game-result-space-container > .score-image-container img {
   max-height: 250px;
 }
-body #game .game-spaces-container {
+#game > .game-result-space-container > .game-spaces-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   column-gap: 8px;
   row-gap: 50px;
 }
-body #game .game-spaces-container .space-item {
+#game > .game-result-space-container > .game-spaces-container .space-item {
   color: black;
   font-size: 36px;
   border-bottom: 4px solid #f2d511;
   line-height: 1;
   width: 40px;
+  height: 40px;
 }
-body #game .game-spaces-container .letter-box {
+#game > .game-result-space-container > .game-spaces-container .letter-box {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 40px;
   height: 40px;
-  border: none;
+  border: 2px solid #a52a01;
   border-radius: 13px;
   background-color: #f2d511;
   color: #151414;
   font-size: 25px;
+  border: none;
 }
-body #game .game-keyboard-container {
+#game > .game-keyboard-container {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   max-width: 800px;
   width: 100%;
 }
-body #game .game-keyboard-container .letter-box {
+#game > .game-keyboard-container .letter-box {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,16 +81,16 @@ body #game .game-keyboard-container .letter-box {
   color: #151414;
   font-size: 25px;
 }
-body #game .game-keyboard-container .letter-box:not(.disabled):hover {
+#game > .game-keyboard-container .letter-box:not(.disabled):hover {
   cursor: pointer;
   bottom: 1px;
   transform: scale(1.05);
 }
-body #game .game-keyboard-container .letter-box:not(.disabled).focus {
+#game > .game-keyboard-container .letter-box:not(.disabled).focus {
   transform: scale(0.9);
   cursor: move;
 }
-body #game .game-keyboard-container .letter-box.disabled {
+#game > .game-keyboard-container .letter-box.disabled {
   opacity: 0.4;
   background-color: #b8a10b;
   cursor: not-allowed;
