@@ -65,4 +65,33 @@ class DOMElement {
   getPosition() {
     return new Position(this.positionX, this.positionY);
   }
+
+  /**
+   * Return the CSS display property of the element
+   * @returns {CSSStyleDeclaration.display} - The display property
+   */
+  getDisplay() {
+    return this.element.style.display
+  }
+
+  /**
+   * Hide element using display css property
+   */
+  hide() {
+    this.getDisplay() = "none";
+  }
+
+  /**
+   * Show element using display css property
+   */
+  show() {
+    this.getDisplay() = "";
+  }
+
+  /**
+   * Whetter element is visible or not
+   */
+  isVisible() {
+    this.getDisplay() != "none";
+  }
 }
