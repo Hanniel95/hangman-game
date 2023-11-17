@@ -1,16 +1,40 @@
-class LetterButton {
+class LetterButton extends DOMElement {
   static DISABLED_CLASS = "disabled";
   static LETTER_BOX_CLASS = "letter-box";
+  static CLONE_ID_FORMAT = "clone-letter-button-%s%s";
 
-  letter;
-  _active;
-  game;
-  clones;
+  #letter;
+  #active;
+  #game;
+  #clones;
 
   constructor(letter) {
-    this.letter = letter;
-    this._active = true;
-    this.clones = 0;
+    super();
+
+    this.#letter = letter;
+    this.#active = true;
+    this.#clones = 0;
+  }
+
+  get game() {
+    return this.#game;
+  }
+
+  set game(game) {
+    this.#game = game;
+  }
+
+  get letter() {
+    return this.#letter;
+  }
+
+  set active(value) {
+    this.#active = value;
+    this.element.classList.toggle(this.disabledClass, !value);
+  }
+
+  get active() {
+    return this.#active;
   }
 
   get disabledClass() {
@@ -22,55 +46,32 @@ class LetterButton {
   }
 
   get id() {
-    const { letter } = this;
-    return `letter-button-${letter}`;
-  }
-
-  set active(value) {
-    this._active = value;
-    if (value) {
-      this.element.classList.remove(this.disabledClass);
-    } else {
-      this.element.classList.add(this.disabledClass);
-    }
-  }
-
-  get active() {
-    return this._active;
+    return `letter-button-${this.letter}`;
   }
 
   get element() {
     return document.getElementById(this.id);
   }
 
-  get positionX() {
-    return this.element.getBoundingClientRect().x;
-  }
-
-  get positionY() {
-    return this.element.getBoundingClientRect().y;
-  }
-
-  getPosition() {
-    return new Position(this.positionX, this.positionY);
-  }
-
   getTemplate() {
     const btn = document.createElement("button");
-    btn.id = `${this.id}`;
+    btn.id = this.id;
     btn.type = "button";
     btn.classList.add(this.letterBoxClass);
-    btn.textContent = `${this.letter}`;
-
+    btn.textContent = this.letter;
     return btn;
   }
 
   clone() {
-    this.clones++;
+    this.#clones++;
+    const cloneId = LetterButton.CLONE_ID_FORMAT.replace(
+      "%s",
+      this.letter
+    ).replace("%s", this.#clones);
 
     const element = document.createElement("button");
     element.type = "button";
-    element.id = `clone-letter-button-${this.letter}${this.clones}`;
+    element.id = cloneId;
     element.classList.add(this.letterBoxClass);
     element.textContent = this.letter;
 
@@ -80,22 +81,16 @@ class LetterButton {
   cloneElement() {
     const clone = this.clone();
     this.game.spacesElement.appendChild(clone);
-    const cloneElement = document.getElementById(
-      `clone-letter-button-${this.letter}${this.clones}`
-    );
-
-    return cloneElement;
+    return document.getElementById(clone.id);
   }
 
-  click(event) {
+  click() {
     if (!this._active) return;
     this.game.play(this);
   }
 
   initEventHandler() {
-    this.element.addEventListener("click", (event) => {
-      this.click();
-    });
+    this.element.addEventListener("click", this.click.bind(this));
   }
 
   ready() {
