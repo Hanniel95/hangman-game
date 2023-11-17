@@ -1,0 +1,29 @@
+// Mixins
+@mixin centered-container-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin box-dimensions {
+  width: $letter-box-size;
+  height: $letter-box-size;
+}
+
+@mixin common-letter-box {
+  // Disposition
+  @include centered-container-styles;
+  position: relative;
+
+  // Dimensions
+  @include box-dimensions;
+
+  // Presentation
+  border: 2px solid $border-color;
+  border-radius: 13px;
+  background-color: $primary-color;
+
+  // Text
+  color: rgb(21, 20, 20);
+  font-size: $font-size-25;
+}

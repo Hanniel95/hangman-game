@@ -1,0 +1,76 @@
+// Styles for the #game element
+#game {
+  @include centered-container-styles;
+  height: 100vh;
+  flex-direction: column;
+  gap: 100px;
+
+  & > .game-result-space-container {
+    @include centered-container-styles;
+    flex-wrap: wrap;
+    max-width: 800px;
+    width: 100%;
+    gap: 50px;
+
+    & > .score-image-container {
+      img {
+        max-height: 250px;
+      }
+    }
+
+    & > .game-spaces-container {
+      @include centered-container-styles;
+      flex-wrap: wrap;
+      column-gap: 8px;
+      row-gap: 50px;
+
+      .space-item {
+        color: black;
+        font-size: 36px;
+        border-bottom: 4px solid $primary-color;
+        line-height: 1;
+        @include box-dimensions;
+      }
+
+      .letter-box {
+        @include common-letter-box;
+        border: none;
+      }
+    }
+  }
+}
+
+// Styles for the .keyboard class within #game
+& > .game-keyboard-container {
+  @include centered-container-styles;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  max-width: 800px;
+  width: 100%;
+
+  // Styles for the .letter-box class within .keyboard
+  .letter-box {
+    @include common-letter-box;
+
+    // Hover effect for non-disabled letter-box elements
+    &:not(.disabled):hover {
+      cursor: pointer;
+      bottom: 1px;
+      transform: scale(1.05);
+    }
+
+    // Focus effect for non-disabled letter-box elements
+    &:not(.disabled).focus {
+      transform: scale(0.9);
+      cursor: move;
+    }
+
+    // Styles for disabled letter-box elements
+    &.disabled {
+      opacity: 0.4;
+      background-color: $disabled-box-color;
+      cursor: not-allowed;
+    }
+  }
+}

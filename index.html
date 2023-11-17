@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Online hangman game. Try to guess the words and avoid hanging the character." />
+    <meta name="keywords" content="hangman, game, words, guess, fun" />
+    <meta name="author" content="Hanniel TSASSE | KoueLab" />
+    <meta name="robots" content="index, follow" />
+
+    <title>Jeu du pendu</title>
+
+    <link rel="stylesheet" href="./assets/css/main.css" />
+
+    <script src="./src/classes/Movement.class.js"></script>
+    <script src="./src/classes/Position.class.js"></script>
+    <script src="./src/classes/DOMElement.class.js"></script>
+
+    <script src="./src/classes/LetterButton.class.js"></script>
+    <script src="./src/classes/SpaceItem.class.js"></script>
+
+    <script src="./src/classes/Game.class.js"></script>
+
+    <script src="./src/helpers/behaviour.js"></script>
+    <script src="./src/main.js"></script>
+</head>
+
+<body>
+    <div id="game">
+
+        <div class="game-result-space-container">
+            <div class="score-image-container">
+                <img id="game-hangman-image" src="./assets/images/hangman-1.png" />
+            </div>
+
+            <div class="game-spaces-container"></div>
+        </div>
+
+        <div class="game-keyboard-container"></div>
+    </div>
+</body>
+
+</html>
