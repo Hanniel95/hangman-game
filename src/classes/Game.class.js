@@ -8,7 +8,7 @@ class Game {
    * @type {string[]}
    * @static
    */
-  static WORDS = ["NOURRITURE", "MARS", "AVRIL"];
+  static WORDS = ["TANZANIA", "TEENAGER", "BANANA"];
 
   /**
    * Path to hangman image assets.
