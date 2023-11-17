@@ -139,6 +139,7 @@ class Game {
 
     // Reset the player's lives
     this.lifes = Game.INITIAL_LIFE_COUNT;
+    this.loadHangmanImage(Game.MAX_LIFE_COUNT - this.lifes + 1);
   }
 
   /**
@@ -295,10 +296,15 @@ class Game {
 
     if (this.lifes > 0) {
       button.active = false;
-      const imageUrl = `${Game.HANGMAN_IMAGE_PATH}${
-        Game.MAX_LIFE_COUNT - (this.lifes - 1)
-      }.png`;
-      this.hangmanImage.src = imageUrl;
+      this.loadHangmanImage(Game.MAX_LIFE_COUNT - this.lifes + 1);
     }
+  }
+
+  /**
+   * Refresh hangman image
+   */
+  loadHangmanImage(level = 6) {
+    const imageUrl = `${Game.HANGMAN_IMAGE_PATH}${level}.png`;
+    this.hangmanImage.src = imageUrl;
   }
 }
