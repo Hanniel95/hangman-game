@@ -1,4 +1,16 @@
+/**
+ * Handles movement animations for HTML elements.
+ * @class
+ */
 class Movement {
+  /**
+   * Moves an element from one position to another using animation.
+   * @param {HTMLElement} element - The HTML element to be moved.
+   * @param {Position} from - The starting position.
+   * @param {Position} to - The ending position.
+   * @param {number} duration - The duration of the animation in milliseconds.
+   * @returns {Promise<void>} - A Promise that resolves when the animation is complete.
+   */
   goToPosition(
     element,
     from = new Position(0, 0),
@@ -11,14 +23,17 @@ class Movement {
       const startTime = performance.now();
 
       const { x: startX, y: startY } = from;
+      const { x: endX, y: endY } = to;
 
+      // At start, the cloned element must be at the original element position
       cloneElement.style.left = startX + "px";
       cloneElement.style.top = startY + "px";
       cloneElement.style.position = "absolute";
 
-      const endX = to.x;
-      const endY = to.y;
-
+      /**
+       * Animates the movement.
+       * @param {number} currentTime - The current time during the animation.
+       */
       function animate(currentTime) {
         const elapsedTime = currentTime - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
@@ -40,6 +55,14 @@ class Movement {
     });
   }
 
+  /**
+   * Returns an element to its original position after click on it at space position
+   * @param {HTMLElement} element - The HTML element to be returned.
+   * @param {Position} from - The starting position.
+   * @param {Position} to - The ending position.
+   * @param {number} duration - The duration of the animation in milliseconds.
+   * @returns {Promise<void>} - A Promise that resolves when the animation is complete.
+   */
   async returnToPosition(
     element,
     from = new Position(0, 0),
@@ -52,16 +75,18 @@ class Movement {
 
         const startTime = performance.now();
 
-        const startX = from.x;
-        const startY = from.y;
+        const { x: startX, y: startY } = from;
+        const { x: endX, y: endY } = to;
 
+        // At start, the cloned element must be at the original element position
         cloneElement.style.left = startX + "px";
         cloneElement.style.top = startY + "px";
         cloneElement.style.position = "absolute";
 
-        const endX = to.x;
-        const endY = to.y;
-
+        /**
+         * Animates the return movement.
+         * @param {number} currentTime - The current time during the animation.
+         */
         function animate(currentTime) {
           const elapsedTime = currentTime - startTime;
           const progress = Math.min(elapsedTime / duration, 1);
@@ -82,8 +107,10 @@ class Movement {
         requestAnimationFrame(animate.bind(this));
       });
 
+    // Wait for animation
     await animation();
 
+    // Remove cloned element after animation
     element.parentNode.removeChild(element);
   }
 }
